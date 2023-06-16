@@ -1,0 +1,33 @@
+.board {
+    width: 480px;
+    height: 480px;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.square {
+    width: 60px;
+    height: 60px;
+    box-sizing: border-box;
+    border: 1px solid #000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 50px;
+    cursor: pointer;
+}
+
+.black {
+    background-color: #b58863;
+}
+
+.white {
+    background-color: #f0d9b5;
+}
+.selected{
+    background-color: #0e34558a;
+}
+.piece {
+    font-size: 40px;
+    line-height: 1;
+}

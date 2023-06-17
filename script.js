@@ -9,9 +9,12 @@ document.addEventListener("DOMContentLoaded", function() {
                     "", "", "", "", "", "", "", "",
                     "♙", "♙", "♙", "♙", "♙", "♙", "♙", "♙",
                     "♖", "♘", "♗", "♕", "♔", "♗", "♘", "♖"];
-    let currentPlayer = "white";
     let selectedPiece = null;
-    
+    var jogador0Piece = ["♖","♘","♗","♕","♔","♙"];
+    var jogador1Piece = ["♜","♞","♝","♛","♚","♟"];
+    let currentPlayer = 0;
+    const moves = [];
+
     function createBoard() {
         for (let i = 0; i < 64; i++) {
             const square = document.createElement("div");
@@ -37,7 +40,10 @@ document.addEventListener("DOMContentLoaded", function() {
                 
                 if (validMove) {
                     movePiece(selectedPiece, selectedSquare);
-                    changePlayer();
+                    updateMoves(selectedPiece, selectedSquare); // Adicionar o movimento ao array de movimentos
+                    currentPlayer = (currentPlayer + 1) % 2; // Trocar o jogador atual (par para ímpar, ímpar para par)
+                    console.log("Movimentos:", moves);
+                    console.log("Jogador atual:", currentPlayer);
                 }
                 
                 // Desmarcar a peça selecionada após o movimento
@@ -45,7 +51,7 @@ document.addEventListener("DOMContentLoaded", function() {
                 selectedPiece = null;
             }
         } else {
-            if (selectedSquare.textContent !== "" && selectedSquare.classList.contains(currentPlayer)) {
+            if (selectedSquare.textContent !== "") {
                 selectedPiece = selectedSquare;
                 selectedPiece.classList.add("selected");
             }
@@ -53,9 +59,28 @@ document.addEventListener("DOMContentLoaded", function() {
     }
     
     function isValidMove(piece, square) {
-        // Lógica para verificar se o movimento é válido
-        // Você pode implementar a lógica de validação dos movimentos de cada peça aqui
-        return true;
+        console.log(square.textContent)
+        var valueCurrentPlayer="";
+        // verifica se o jogador é par ou impar e adiciona no valueCurrentPlayer
+        if (currentPlayer == 0){
+            valueCurrentPlayer = jogador1Piece
+            console.log(valueCurrentPlayer)
+        } else {
+            valueCurrentPlayer = jogador0Piece
+            console.log(valueCurrentPlayer)
+        }
+        
+        if (valueCurrentPlayer.includes(square.textContent)) {
+            console.log("O valor está presente no array: " + square.textContent);
+            return true;
+        } else {
+
+            console.log("O valor não está presente no array");
+            if (square.textContent == "") {
+                return true;
+            }
+            return false;
+        }
     }
     
     function movePiece(piece, square) {
@@ -65,8 +90,12 @@ document.addEventListener("DOMContentLoaded", function() {
         squares[pieceIndex] = square;
     }
     
-    function changePlayer() {
-        currentPlayer = currentPlayer === "white" ? "black" : "white";
+    function updateMoves(piece, square) {
+        const move = {
+            to: squares.indexOf(square),
+            player: currentPlayer
+        };
+        moves.push(move);
     }
     
     createBoard();
